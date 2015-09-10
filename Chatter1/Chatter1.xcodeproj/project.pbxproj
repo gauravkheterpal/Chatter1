@@ -1050,6 +1050,8 @@
 		824A9DCD1724E16400C9BD79 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = Metacube;
 				TargetAttributes = {

@@ -45,16 +45,16 @@ class DetailInterfaceController: WKInterfaceController {
         presentTextInputControllerWithSuggestions(suggestions,
             allowedInputMode: .AllowEmoji, completion: { selections in
                 
-                if selections != nil && selections.count > 0 {
+                if selections != nil && selections!.count > 0 {
                     // send the request out through the parent app...
-                    let bodyText = selections[0] as? String
-                    var userInfo = ["body": bodyText,
+                    let bodyText = selections![0] as? String
+                    let userInfo = ["body": bodyText,
                         "parentId": self.authorId]
                     
                     DetailInterfaceController.openParentApplication(userInfo) {
-                        (reply:[NSObject : AnyObject]!, error: NSError!) -> Void in
+                        (reply:[NSObject : AnyObject], error: NSError?) -> Void in
                         
-                        println("reply from parent: \(reply) error: \(error)")
+                        print("reply from parent: \(reply) error: \(error)")
                     }
                 }
         })

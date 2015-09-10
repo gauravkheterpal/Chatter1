@@ -44,17 +44,16 @@ class ChatterFeedTableViewController: UITableViewController {
         
         if let text = model[indexPath.row, "Body"] as? String {
         
-            var attributes = [UIFont(): UIFont.systemFontOfSize(14.0)]
-            var attrString:NSAttributedString? = NSAttributedString(string: text, attributes: attributes)
-            var rect:CGRect = attrString!.boundingRectWithSize(CGSizeMake(300.0,CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context:nil )
-            var requredSize:CGRect = rect
+            let attrString:NSAttributedString? = NSAttributedString(string: text, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(14.0)])
+            let rect:CGRect = attrString!.boundingRectWithSize(CGSizeMake(300.0,CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context:nil )
+            let requredSize:CGRect = rect
             return requredSize.height+30
         }
         return 44
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("FeedCell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("FeedCell", forIndexPath: indexPath) 
         if let text = model[indexPath.row, "Body"] as? String {
             cell.textLabel?.backgroundColor = UIColor.clearColor()
             cell.textLabel?.lineBreakMode = NSLineBreakMode.ByWordWrapping

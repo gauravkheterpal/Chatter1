@@ -55,7 +55,7 @@ class InterfaceController: WKInterfaceController {
         let groupURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(groupIdentifier)
         let fileURL = groupURL?.URLByAppendingPathComponent(groupIdentifierPath)
         
-        fileCoordinator.coordinateReadingItemAtURL(fileURL!, options: nil, error: nil) { (newURL :NSURL!) -> Void in
+        fileCoordinator.coordinateReadingItemAtURL(fileURL!, options: [], error: nil) { (newURL :NSURL) -> Void in
             
             if let savedData = NSData(contentsOfURL: newURL) {
                 
@@ -64,11 +64,11 @@ class InterfaceController: WKInterfaceController {
                     self.rowData = data
                     self.table.setNumberOfRows(data.count, withRowType: "chatterFeedRow")
                     
-                    for (index, postData) in enumerate(data) {
+                    for (index, postData) in data.enumerate() {
                         if let row = self.table.rowControllerAtIndex(index) as? ChatterFeedRow {
                             let obj = postData as! [String: AnyObject]
                             let display = obj["Body"] as! String
-                            print(display)
+                            print(display, terminator: "")
                             row.rowText.setText(display)
                         }
                     }

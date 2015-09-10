@@ -50,7 +50,7 @@ class RestModel: NSObject {
     func writeToSharedAppGroupData() {
         
         let fileCoord = NSFileCoordinator()
-        fileCoord.coordinateWritingItemAtURL(groupURL, options: nil, error: nil) { ( newURL :NSURL!) -> Void in
+        fileCoord.coordinateWritingItemAtURL(groupURL, options: [], error: nil) { ( newURL :NSURL) -> Void in
             
             var toSave: [AnyObject] = []
             for object in self.items {
@@ -61,7 +61,7 @@ class RestModel: NSObject {
             let success = saveData.writeToURL(newURL, atomically: true)
             
             if !success {
-                println("error saving to app group storage")
+                print("error saving to app group storage")
             }
         }
     }
@@ -73,11 +73,11 @@ class RestModel: NSObject {
         self.completion = completion
         
         let api = SFRestAPI.sharedInstance()
-        let request = api.requestForQuery(q)
+        _ = api.requestForQuery(q)
         
         api.performSOQLQuery(q, failBlock: { error in
             
-            println("query: \(q) failed with error: \(error)")
+            print("query: \(q) failed with error: \(error)")
             
             self.completion(error: error)
             }) { response in
