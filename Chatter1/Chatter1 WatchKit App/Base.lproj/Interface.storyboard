@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="7706" systemVersion="14C109" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="11163.2" systemVersion="15F34" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="7701"/>
+        <deployment identifier="watchOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11133"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="11064"/>
     </dependencies>
     <scenes>
         <!--Feeds-->
@@ -20,22 +21,27 @@
                                                 <fontDescription key="font" style="UICTFontTextStyleCaption2"/>
                                             </label>
                                         </items>
-                                        <color key="backgroundColor" red="0.28235294117647058" green="0.62745098039215685" blue="0.69019607843137254" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.28235294117647058" green="0.62745098039215685" blue="0.69019607843137254" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </group>
                                     <connections>
                                         <outlet property="rowText" destination="sD4-bj-E5j" id="lNt-M5-H0F"/>
-                                        <segue destination="Khy-ez-Kgh" kind="push" id="v0Z-qC-8am"/>
                                     </connections>
                                 </tableRow>
                             </items>
                         </table>
+                        <button width="1" alignment="left" title="refresh" id="ebA-Jq-G6Y">
+                            <connections>
+                                <action selector="refreshFeeds" destination="AgC-eL-Hgc" id="RAe-Q1-GDd"/>
+                            </connections>
+                        </button>
                     </items>
                     <connections>
+                        <outlet property="refresh" destination="ebA-Jq-G6Y" id="pqC-bt-nk9"/>
                         <outlet property="table" destination="XA0-SR-msg" id="vkd-G0-hw3"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="235" y="347"/>
+            <point key="canvasLocation" x="43" y="314"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="BOz-TT-tkC">
@@ -86,10 +92,10 @@
             </objects>
             <point key="canvasLocation" x="553" y="1001"/>
         </scene>
-        <!--Detail-->
+        <!--DetailInterfaceController-->
         <scene sceneID="kKa-AJ-WYc">
             <objects>
-                <controller title="Detail" id="Khy-ez-Kgh" customClass="DetailInterfaceController" customModule="Chatter1_WatchKit_Extension">
+                <controller identifier="DetailInterfaceController" title="Detail" id="Khy-ez-Kgh" userLabel="DetailInterfaceController" customClass="DetailInterfaceController" customModule="Chatter1_WatchKit_Extension">
                     <items>
                         <group width="1" alignment="left" id="0ge-eo-ZeN">
                             <items>
@@ -115,7 +121,7 @@
                                     </connections>
                                 </button>
                             </items>
-                            <color key="backgroundColor" red="0.28235294119999998" green="0.62745098040000002" blue="0.69019607839999997" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" red="0.28235294119999998" green="0.62745098040000002" blue="0.69019607839999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </group>
                     </items>
                     <connections>
@@ -127,5 +133,5 @@
             <point key="canvasLocation" x="478" y="347"/>
         </scene>
     </scenes>
-    <color key="tintColor" red="0.28235294117647058" green="0.62745098039215685" blue="0.69019607843137254" alpha="1" colorSpace="calibratedRGB"/>
+    <color key="tintColor" red="0.28235294117647058" green="0.62745098039215685" blue="0.69019607843137254" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

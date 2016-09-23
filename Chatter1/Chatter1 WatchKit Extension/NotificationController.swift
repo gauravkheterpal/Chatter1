@@ -8,7 +8,7 @@
 
 import WatchKit
 import Foundation
-
+import UserNotifications
 
 class NotificationController: WKUserNotificationInterfaceController {
     
@@ -33,29 +33,27 @@ class NotificationController: WKUserNotificationInterfaceController {
         super.didDeactivate()
     }
     
-    
-    override func didReceiveLocalNotification(localNotification: UILocalNotification, withCompletion completionHandler: ((WKUserNotificationInterfaceType) -> Void)) {
+    @available(watchOSApplicationExtension 3.0, *)
+    override func didReceive(_ notification: UNNotification, withCompletion completionHandler: @escaping (WKUserNotificationInterfaceType) -> Swift.Void) {
         
-        print("Local : ")
-        print(localNotification)
-        completionHandler(.Custom)
+        print("Local : ", terminator: "")
+        print(notification, terminator: "")
+        completionHandler(.custom)
     }
     
-    
-    
-    override func didReceiveRemoteNotification(remoteNotification: [NSObject : AnyObject], withCompletion completionHandler: ((WKUserNotificationInterfaceType) -> Void)) {
+    override func  didReceiveRemoteNotification(_ remoteNotification: [AnyHashable : Any], withCompletion completionHandler: @escaping (WKUserNotificationInterfaceType) -> Swift.Void)
+ {
         
-        print(remoteNotification)
+        print(remoteNotification, terminator: "")
         if let remoteaps:NSDictionary = remoteNotification["aps"] as? NSDictionary{
             if let remoteAlert:NSString = remoteaps["alert"] as? NSString{
                 handleNotification(remoteAlert)
-                
             }
         }
-        completionHandler(WKUserNotificationInterfaceType.Custom)
+        completionHandler(WKUserNotificationInterfaceType.custom)
     }
     
-    func handleNotification( alert : AnyObject? ){
+    func handleNotification( _ alert : AnyObject? ){
         
         self.alertLabel!.setText(alert as? String)
         //self.bodyLabel!.setText("Successful")

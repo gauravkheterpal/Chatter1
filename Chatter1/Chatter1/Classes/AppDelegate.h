@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate :  UIResponder <UIApplicationDelegate>
+
+//- (NSString *)test:(NSString *)test;
+- (void)sendReply:(NSString *) body forParentId:(NSString *) parentId replyHandler:(void (^)(NSDictionary<NSString *,id> * _Nonnull))replyHandler;
+- (void)handleSdkManagerLogout;
 
 @end

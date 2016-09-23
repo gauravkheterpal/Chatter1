@@ -16,14 +16,16 @@
 #import <SalesforceCommonUtils/SFLogger.h>
 #import <SalesforceRestAPI/SFRestRequest.h>
 #import <SalesforceRestAPI/SFRestAPI+Blocks.h>
-
+#import <WatchKit/WatchKit.h>
+#import <WatchConnectivity/WatchConnectivity.h>
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
 
 static NSString * const RemoteAccessConsumerKey = @"3MVG9ZL0ppGP5UrBly5N4WklgL_oa_TOvi7dzTSrvsU0KFwic7eu9RSvcgKkTiTb81lXYELT4DP381bv0sAhV";
 static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect/oauth/done";
 
 static NSString * const PostFeedItemsToChatterWallURL = @"/v32.0/chatter/feed-elements";
 
-@interface AppDelegate ()
+@interface AppDelegate ()<WCSessionDelegate>
 
 - (void)setupRootViewController;
 
@@ -41,36 +43,78 @@ static NSString * const PostFeedItemsToChatterWallURL = @"/v32.0/chatter/feed-el
     if (self) {
         [SFLogger setLogLevel:SFLogLevelDebug];
 
-        [SalesforceSDKManager sharedManager].connectedAppId = RemoteAccessConsumerKey;
-        [SalesforceSDKManager sharedManager].connectedAppCallbackUri = OAuthRedirectURI;
-        [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
-        __weak AppDelegate *weakSelf = self;
-        [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
-            [weakSelf log:SFLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
-            [weakSelf setupRootViewController];
-        };
-        [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
-            [weakSelf log:SFLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
-            [weakSelf initializeAppViewState];
-            [[SalesforceSDKManager sharedManager] launch];
-        };
-        [SalesforceSDKManager sharedManager].postLogoutAction = ^{
-            [weakSelf handleSdkManagerLogout];
-        };
-        [SalesforceSDKManager sharedManager].switchUserAction = ^(SFUserAccount *fromUser, SFUserAccount *toUser) {
-            [weakSelf handleUserSwitch:fromUser toUser:toUser];
-        };
+        [SFUserAccountManager sharedInstance].oauthClientId = RemoteAccessConsumerKey;
+        [SFUserAccountManager sharedInstance].oauthCompletionUrl = OAuthRedirectURI;
+        [SFUserAccountManager sharedInstance].scopes = [NSSet setWithObjects:@"web", @"api", nil];
+        if ([WCSession isSupported]) {
+            WCSession* session = [WCSession defaultSession];
+            session.delegate = self;
+            [session activateSession];
+        }
     }
-    
     return self;
+}
+
+- (void)startWCSession {
+    if ([WCSession isSupported]) {
+        WCSession* session = [WCSession defaultSession];
+        session.delegate = self;
+        [session activateSession];
+    }
+}
+
+- (void)storeCurrentUser:(SFUserAccount *)currentUser {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:currentUser] forKey:@"Chatter1_SFUserAccount_currentUser"];
+}
+
+- (void)removeCurrentUser {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Chatter1_SFUserAccount_currentUser"];
+}
+
+- (SFUserAccount *)currentUser {
+    SFUserAccount *user = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"Chatter1_SFUserAccount_currentUser"]];
+    return user;
+}
+
+- (void)login {
+    __weak AppDelegate *weakSelf = self;
+    [[SFAuthenticationManager sharedManager]
+     loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)^(SFOAuthInfo *info) {
+         NSLog(@"Authentication Done");
+         [weakSelf setupRootViewController];
+         SFIdentityData *claims = [SFAuthenticationManager sharedManager].idCoordinator.idData;
+         NSLog(@"claims = %@",claims);
+         NSLog(@"accessToken = %@", [SFAuthenticationManager sharedManager].coordinator.credentials.accessToken);
+         SFUserAccount *currentUser = [[SFUserAccountManager sharedInstance] currentUser];
+         [self storeCurrentUser:currentUser];
+     }
+     failure:(SFOAuthFlowFailureCallbackBlock)^(SFOAuthInfo *info, NSError *error) {
+         NSLog(@"Authentication Failed");
+         // handle error hare.
+     }];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    if ([WCSession isSupported]) {
+        WCSession* session = [WCSession defaultSession];
+        session.delegate = self;
+        [session activateSession];
+    }
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self initializeAppViewState];
-    
-    [[SalesforceSDKManager sharedManager] launch];
+    SFUserAccount *curerentUser = [self currentUser];
+    if (curerentUser) {
+        [[SFUserAccountManager sharedInstance] setCurrentUser:curerentUser];
+        [self setupRootViewController];
+    } else {
+        [self login];
+        if ([WCSession isSupported]) {
+            WCSession* session = [WCSession defaultSession];
+            session.delegate = self;
+            [session activateSession];
+        }
+    }
     
     NSLog(@"Register for Notification");
     if ([application respondsToSelector:@selector(registerUserNotificationSettings:)]) {
@@ -81,6 +125,8 @@ static NSString * const PostFeedItemsToChatterWallURL = @"/v32.0/chatter/feed-el
     }
     NSLog(@"Register for Salesforce push notification");
     [[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
+    
+    
     return YES;
 }
 
@@ -98,6 +144,7 @@ static NSString * const PostFeedItemsToChatterWallURL = @"/v32.0/chatter/feed-el
     NSLog(@"didFailToRegisterForRemoteNotificationsWithError :%@",error);
 }
 
+
 #pragma mark - Private methods
 
 - (void)initializeAppViewState
@@ -113,7 +160,6 @@ static NSString * const PostFeedItemsToChatterWallURL = @"/v32.0/chatter/feed-el
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:46.0/255.0 green:140.0/255.0 blue:212.0/255.0 alpha:1.0]];
     [[UINavigationBar appearance]setTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance]setTitleTextAttributes:[NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName]];
-    
     self.window.rootViewController = rootVC;
 }
 
@@ -135,6 +181,7 @@ static NSString * const PostFeedItemsToChatterWallURL = @"/v32.0/chatter/feed-el
     [self resetViewState:^{
        
         [self initializeAppViewState];
+        [self removeCurrentUser];
         
         NSArray *allAccounts = [SFUserAccountManager sharedInstance].allUserAccounts;
         if ([allAccounts count] > 1) {
@@ -147,7 +194,7 @@ static NSString * const PostFeedItemsToChatterWallURL = @"/v32.0/chatter/feed-el
                 [SFUserAccountManager sharedInstance].currentUser = ([SFUserAccountManager sharedInstance].allUserAccounts)[0];
             }
             
-            [[SalesforceSDKManager sharedManager] launch];
+            [self login];
         }
     }];
 }
@@ -159,25 +206,23 @@ static NSString * const PostFeedItemsToChatterWallURL = @"/v32.0/chatter/feed-el
      fromUser.userName, toUser.userName];
     [self resetViewState:^{
         [self initializeAppViewState];
-        [[SalesforceSDKManager sharedManager] launch];
+        [self login];
     }];
 }
 
-- (void)application:(UIApplication *)application handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply {
-    
-    NSString * parentId = userInfo[@"parentId"];
-    NSString * bodyText = userInfo[@"body"];
-    
-    NSDictionary * dict = @{ @"body": @{ @"messageSegments": @[@{ @"type": @"Text", @"text": bodyText }] },
-                             @"feedElementType": @"FeedItem",
-                             @"subjectId": parentId };
-    
-    SFRestRequest * request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:PostFeedItemsToChatterWallURL queryParams:dict];
-    
+
+- (void)sendReply:(NSString *) body forParentId:(NSString *) parentId replyHandler:(void (^)(NSDictionary<NSString *,id> * _Nonnull))replyHandler {
+    NSDictionary *dict =  @{ @"body": @{ @"messageSegments": @[@{ @"type": @"Text", @"text": body }] } };
+    NSString *path = [NSString stringWithFormat:@"/services/data/v37.0/chatter/feed-elements/%@/capabilities/comments/items?text=New+comment", parentId];
+    SFRestRequest * request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:dict];
     [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e) {
-        reply(@{ @"error:": e.localizedDescription });
+        NSLog(@"ERROR %@",e.localizedDescription);
+        //replyHandler(@{ @"response:": e.localizedDescription });
     } completeBlock:^ (id response) {
-        reply(@{ @"response:": response });
+        NSLog(@"RESPONSE - %@",response);
+        if(response) {
+            //replyHandler(@{ @"response:": response });
+        }
     }];
 }
 
