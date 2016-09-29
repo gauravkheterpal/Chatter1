@@ -97,7 +97,7 @@ class ChatterFeedTableViewController: UITableViewController,WCSessionDelegate {
         }
     
     func refreshTable() {
-        let query = "SELECT Id,CreatedBy.Name,CreatedBy.Id,Body,CreatedDate FROM FeedItem WHERE Type = 'TextPost' ORDER BY CreatedDate DESC LIMIT 100"
+          let query = "SELECT Id,CreatedBy.Name,CreatedBy.Id,Body,CreatedDate FROM FeedItem WHERE Type = 'TextPost' and CreatedById != '\(SFUserAccountManager.sharedInstance().activeUserIdentity.userId!)' ORDER BY CreatedDate DESC LIMIT 100"
         model.reload(query: query,
         saveResultsToAppGroup: true, completion: { error in
         DispatchQueue.main.async { _ in
