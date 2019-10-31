@@ -7,6 +7,7 @@
 //
 
 import WatchKit
+import WatchConnectivity
 import Foundation
 
 class DetailInterfaceController: WKInterfaceController {
@@ -47,15 +48,17 @@ class DetailInterfaceController: WKInterfaceController {
                 if selections != nil && selections!.count > 0 {
                     // send the request out through the parent app...
                     let bodyText = selections![0] as? String
-                    var userInfo = ["body": bodyText,
+                    let userInfo = ["body": bodyText,
                         "parentId": self.authorId]
                     
-                    // TODO:
-//                    DetailInterfaceController.openParentApplication(userInfo) {
-//                        (reply:[NSObject : AnyObject]!, error: NSError!) -> Void in
-//
-//                        print("reply from parent: \(reply) error: \(error)")
-//                    }
+                    if WCSession.isSupported() {
+                        let session = WCSession.default
+                        session.activate()
+                        
+                        if session.isReachable {
+                            session.sendMessage(userInfo as [String : Any], replyHandler: nil, errorHandler: nil)
+                        }
+                    }
                 }
         })
     }
