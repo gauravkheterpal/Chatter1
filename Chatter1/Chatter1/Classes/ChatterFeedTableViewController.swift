@@ -23,43 +23,41 @@ class ChatterFeedTableViewController: UITableViewController {
         
         model.reload(query: query,
         saveResultsToAppGroup: true, completion: { error in
-        
-        dispatch_async(dispatch_get_main_queue()) { _ in
-        self.tableView.reloadData()
-        }
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         })
     }
     
     // MARK: - UITableViewDatasource Methods
-    
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return model.items.count
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if let text = model[indexPath.row, "Body"] as? String {
-        
-            var attributes = [UIFont(): UIFont.systemFontOfSize(14.0)]
-            var attrString:NSAttributedString? = NSAttributedString(string: text, attributes: attributes)
-            var rect:CGRect = attrString!.boundingRectWithSize(CGSizeMake(300.0,CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context:nil )
+            
+            let attributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0)]
+            let attrString:NSAttributedString? = NSAttributedString(string: text, attributes: attributes)
+            var rect:CGRect = attrString!.boundingRect(with: CGSize(width: 300.0, height: CGFloat.greatestFiniteMagnitude) , options: NSStringDrawingOptions.usesLineFragmentOrigin, context:nil )
             var requredSize:CGRect = rect
             return requredSize.height+30
         }
         return 44
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("FeedCell", forIndexPath: indexPath) as! UITableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! UITableViewCell
         if let text = model[indexPath.row, "Body"] as? String {
-            cell.textLabel?.backgroundColor = UIColor.clearColor()
-            cell.textLabel?.lineBreakMode = NSLineBreakMode.ByWordWrapping
+            cell.textLabel?.backgroundColor = UIColor.clear
+            cell.textLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
             cell.textLabel?.numberOfLines = 0
-            cell.textLabel?.font = UIFont.systemFontOfSize(14)
+            cell.textLabel?.font = UIFont.systemFont(ofSize: 14)
             cell.textLabel!.text = text
             
         }
@@ -74,6 +72,6 @@ class ChatterFeedTableViewController: UITableViewController {
     */
     @IBAction func logout(sender: AnyObject) {
         // Call SFAuthenticationManager to logout user
-        SFAuthenticationManager.sharedManager().logout()
+        SFAuthenticationManager.shared().logout()
     }
 }

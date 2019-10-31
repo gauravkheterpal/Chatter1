@@ -12,10 +12,8 @@ import Foundation
 
 class GlanceController: WKInterfaceController {
     
-    override func awakeWithContext(context: AnyObject?) {
-        super.awakeWithContext(context)
-        
-        // Configure interface objects here.
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
     }
     
     override func willActivate() {

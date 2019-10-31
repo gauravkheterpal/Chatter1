@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4F3F413517E7CA5C008B3283 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3F413417E7CA5C008B3283 /* ImageIO.framework */; };
+		67DD51C32369BFD300B02C47 /* Chatter1 WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = BB5905DA1B74CEC3001E4246 /* Chatter1 WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		67DD51C62369BFD300B02C47 /* Chatter1 WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = BB5905E91B74CEC3001E4246 /* Chatter1 WatchKit App.app */; };
 		824A9DD91724E16400C9BD79 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DD81724E16400C9BD79 /* UIKit.framework */; };
 		824A9DDB1724E16400C9BD79 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DDA1724E16400C9BD79 /* Foundation.framework */; };
 		824A9DDD1724E16400C9BD79 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DDC1724E16400C9BD79 /* CoreGraphics.framework */; };
@@ -50,40 +52,49 @@
 		BB5905E21B74CEC3001E4246 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5905E11B74CEC3001E4246 /* NotificationController.swift */; };
 		BB5905E41B74CEC3001E4246 /* GlanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5905E31B74CEC3001E4246 /* GlanceController.swift */; };
 		BB5905E61B74CEC3001E4246 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB5905E51B74CEC3001E4246 /* Images.xcassets */; };
-		BB5905EA1B74CEC4001E4246 /* Chatter1 WatchKit App.app in Resources */ = {isa = PBXBuildFile; fileRef = BB5905E91B74CEC3001E4246 /* Chatter1 WatchKit App.app */; };
 		BB5905F21B74CEC4001E4246 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB5905F01B74CEC4001E4246 /* Interface.storyboard */; };
 		BB5905F41B74CEC4001E4246 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB5905F31B74CEC4001E4246 /* Images.xcassets */; };
-		BB5905F71B74CEC4001E4246 /* Chatter1 WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = BB5905DA1B74CEC3001E4246 /* Chatter1 WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BB5905FF1B74CFC3001E4246 /* DetailInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5905FE1B74CFC3001E4246 /* DetailInterfaceController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		BB5905EB1B74CEC4001E4246 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 824A9DCD1724E16400C9BD79 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = BB5905E81B74CEC3001E4246;
-			remoteInfo = "Chatter1 WatchKit App";
-		};
-		BB5905F51B74CEC4001E4246 /* PBXContainerItemProxy */ = {
+		67DD51C12369BFD300B02C47 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 824A9DCD1724E16400C9BD79 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = BB5905D91B74CEC3001E4246;
 			remoteInfo = "Chatter1 WatchKit Extension";
 		};
+		67DD51C42369BFD300B02C47 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 824A9DCD1724E16400C9BD79 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BB5905E81B74CEC3001E4246;
+			remoteInfo = "Chatter1 WatchKit App";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		BBB7F0801B66426E00CFA374 /* Embed App Extensions */ = {
+		67DD51C72369BFD400B02C47 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				BB5905F71B74CEC4001E4246 /* Chatter1 WatchKit Extension.appex in Embed App Extensions */,
+				67DD51C32369BFD300B02C47 /* Chatter1 WatchKit Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67DD51C82369BFD400B02C47 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				67DD51C62369BFD300B02C47 /* Chatter1 WatchKit App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -999,12 +1010,12 @@
 				824A9DD11724E16400C9BD79 /* Sources */,
 				824A9DD21724E16400C9BD79 /* Frameworks */,
 				824A9DD31724E16400C9BD79 /* Resources */,
-				BBB7F0801B66426E00CFA374 /* Embed App Extensions */,
+				67DD51C82369BFD400B02C47 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				BB5905F61B74CEC4001E4246 /* PBXTargetDependency */,
+				67DD51C52369BFD300B02C47 /* PBXTargetDependency */,
 			);
 			name = Chatter1;
 			productName = ShareItWatchApp;
@@ -1022,27 +1033,28 @@
 			buildRules = (
 			);
 			dependencies = (
-				BB5905EC1B74CEC4001E4246 /* PBXTargetDependency */,
 			);
 			name = "Chatter1 WatchKit Extension";
 			productName = "Chatter1 WatchKit Extension";
 			productReference = BB5905DA1B74CEC3001E4246 /* Chatter1 WatchKit Extension.appex */;
-			productType = "com.apple.product-type.watchkit-extension";
+			productType = "com.apple.product-type.watchkit2-extension";
 		};
 		BB5905E81B74CEC3001E4246 /* Chatter1 WatchKit App */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BB5905F81B74CEC4001E4246 /* Build configuration list for PBXNativeTarget "Chatter1 WatchKit App" */;
 			buildPhases = (
 				BB5905E71B74CEC3001E4246 /* Resources */,
+				67DD51C72369BFD400B02C47 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				67DD51C22369BFD300B02C47 /* PBXTargetDependency */,
 			);
 			name = "Chatter1 WatchKit App";
 			productName = "Chatter1 WatchKit App";
 			productReference = BB5905E91B74CEC3001E4246 /* Chatter1 WatchKit App.app */;
-			productType = "com.apple.product-type.application.watchapp";
+			productType = "com.apple.product-type.application.watchapp2";
 		};
 /* End PBXNativeTarget section */
 
@@ -1050,7 +1062,7 @@
 		824A9DCD1724E16400C9BD79 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 1030;
 				ORGANIZATIONNAME = Metacube;
 				TargetAttributes = {
 					824A9DD41724E16400C9BD79 = {
@@ -1084,6 +1096,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -1121,7 +1134,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB5905EA1B74CEC4001E4246 /* Chatter1 WatchKit App.app in Resources */,
 				BB5905E61B74CEC3001E4246 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1164,15 +1176,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		BB5905EC1B74CEC4001E4246 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = BB5905E81B74CEC3001E4246 /* Chatter1 WatchKit App */;
-			targetProxy = BB5905EB1B74CEC4001E4246 /* PBXContainerItemProxy */;
-		};
-		BB5905F61B74CEC4001E4246 /* PBXTargetDependency */ = {
+		67DD51C22369BFD300B02C47 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = BB5905D91B74CEC3001E4246 /* Chatter1 WatchKit Extension */;
-			targetProxy = BB5905F51B74CEC4001E4246 /* PBXContainerItemProxy */;
+			targetProxy = 67DD51C12369BFD300B02C47 /* PBXContainerItemProxy */;
+		};
+		67DD51C52369BFD300B02C47 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BB5905E81B74CEC3001E4246 /* Chatter1 WatchKit App */;
+			targetProxy = 67DD51C42369BFD300B02C47 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1200,29 +1212,48 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1233,24 +1264,43 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1296,10 +1346,12 @@
 					"-ObjC",
 					"-all_load",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.metacube.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Chatter1;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Chatter1-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1344,9 +1396,11 @@
 					"-ObjC",
 					"-all_load",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.metacube.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Chatter1;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Chatter1-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1354,6 +1408,7 @@
 		BB5905F91B74CEC4001E4246 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -1375,18 +1430,20 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				IBSC_MODULE = Chatter1_WatchKit_Extension;
 				INFOPLIST_FILE = "Chatter1 WatchKit App/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.metacube.Chatter1.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
-				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
 		BB5905FA1B74CEC4001E4246 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -1406,12 +1463,13 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				IBSC_MODULE = Chatter1_WatchKit_Extension;
 				INFOPLIST_FILE = "Chatter1 WatchKit App/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.metacube.Chatter1.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
-				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -1442,10 +1500,15 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.metacube.Chatter1.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE = "";
+				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
@@ -1474,9 +1537,14 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.metacube.Chatter1.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE = "";
+				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};

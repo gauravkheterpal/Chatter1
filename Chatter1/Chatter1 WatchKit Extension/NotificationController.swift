@@ -33,26 +33,21 @@ class NotificationController: WKUserNotificationInterfaceController {
         super.didDeactivate()
     }
     
-    
-    override func didReceiveLocalNotification(localNotification: UILocalNotification, withCompletion completionHandler: ((WKUserNotificationInterfaceType) -> Void)) {
-        
+    override func didReceive(_ localNotification: UILocalNotification, withCompletion completionHandler: @escaping (WKUserNotificationInterfaceType) -> Void) {
         print("Local : ")
         print(localNotification)
-        completionHandler(.Custom)
+        completionHandler(.custom)
     }
     
-    
-    
-    override func didReceiveRemoteNotification(remoteNotification: [NSObject : AnyObject], withCompletion completionHandler: ((WKUserNotificationInterfaceType) -> Void)) {
-        
+    override func didReceiveRemoteNotification(_ remoteNotification: [AnyHashable : Any], withCompletion completionHandler: @escaping (WKUserNotificationInterfaceType) -> Void) {
         print(remoteNotification)
         if let remoteaps:NSDictionary = remoteNotification["aps"] as? NSDictionary{
             if let remoteAlert:NSString = remoteaps["alert"] as? NSString{
-                handleNotification(remoteAlert)
+                handleNotification(alert: remoteAlert)
                 
             }
         }
-        completionHandler(WKUserNotificationInterfaceType.Custom)
+        completionHandler(WKUserNotificationInterfaceType.custom)
     }
     
     func handleNotification( alert : AnyObject? ){

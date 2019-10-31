@@ -19,7 +19,7 @@ struct ResponseData {
         if let data = json as? [String: AnyObject] {
             return data[key]
         }
-        return .None
+        return .none
     }
 }
 
@@ -29,7 +29,7 @@ class RestModel: NSObject {
     
     // Properties
     var items: [ResponseData] = []
-    var completion: ((error: NSError!) -> Void)!
+    var completion: ((_ error: NSError?) -> Void)!
     
     subscript(index: Int, key: String) -> AnyObject? {
         return items[index][key]
@@ -42,46 +42,43 @@ class RestModel: NSObject {
     // App Group storage for WatchKit
     
     lazy var groupURL: NSURL = {
-        let groupURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(groupIdentifier)
-        let fileURL = groupURL?.URLByAppendingPathComponent(groupIdentiferPath)
-        return fileURL!
+        let groupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupIdentifier)
+        let fileURL = groupURL?.appendingPathComponent(groupIdentiferPath)
+        return fileURL! as NSURL
         }()
     
     func writeToSharedAppGroupData() {
         
         let fileCoord = NSFileCoordinator()
-        fileCoord.coordinateWritingItemAtURL(groupURL, options: nil, error: nil) { ( newURL :NSURL!) -> Void in
-            
+        fileCoord.coordinate(writingItemAt: groupURL as URL, options: NSFileCoordinator.WritingOptions.forMoving, error: nil) { (newURL) in
             var toSave: [AnyObject] = []
             for object in self.items {
                 toSave.append(object.json)
             }
             
-            let saveData = NSKeyedArchiver.archivedDataWithRootObject(toSave)
-            let success = saveData.writeToURL(newURL, atomically: true)
+            let saveData = NSKeyedArchiver.archivedData(withRootObject: toSave) as NSData
+            let success = saveData.write(to: newURL, atomically: true)
             
             if !success {
-                println("error saving to app group storage")
+                print("error saving to app group storage")
             }
         }
     }
     
     // Public Methods
     
-    func reload(query q: String, saveResultsToAppGroup: Bool? = false, completion: (error: NSError!) -> Void) {
+    func reload(query q: String, saveResultsToAppGroup: Bool? = false, completion: @escaping (_ error: NSError?) -> Void) {
         
         self.completion = completion
         
         let api = SFRestAPI.sharedInstance()
-        let request = api.requestForQuery(q)
+        let request = api!.request(forQuery: q)
         
-        api.performSOQLQuery(q, failBlock: { error in
+        api!.performSOQLQuery(q, fail: { error in
             
-            println("query: \(q) failed with error: \(error)")
-            
-            self.completion(error: error)
-            }) { response in
-                if let records = response["records"] as? [AnyObject] {
+            self.completion(error)
+            } as! SFRestFailBlock) { response in
+                if let records = response?["records"] as? [AnyObject] {
                     let responseItems = records.map {ResponseData(json: $0)}
                     self.items = responseItems
                     if let shouldSave = saveResultsToAppGroup {
@@ -91,7 +88,7 @@ class RestModel: NSObject {
                     }
                 }
                 
-                self.completion(error: .None)
+                self.completion(nil)
         }
     }
 }

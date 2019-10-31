@@ -16,18 +16,17 @@ class DetailInterfaceController: WKInterfaceController {
     
     var authorId: String! // used upon reply
     
-    override func awakeWithContext(context: AnyObject?) {
-        super.awakeWithContext(context)
-        
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
         if let data = context as? [String: AnyObject] {
             
             if let createdBy: AnyObject = data["CreatedBy"] {
                 
-                if let author = createdBy["Name"] as? String {
+                if let author = createdBy.object(forKey: "Name") as? String {
                     authorLabel.setText("\(author)")
                 }
                 
-                if let createdById = createdBy["Id"] as? String {
+                if let createdById = createdBy.object(forKey: "Id") as? String {
                     authorId = createdById
                 }
             }
@@ -42,20 +41,21 @@ class DetailInterfaceController: WKInterfaceController {
         
         let suggestions = ["Thanks for the post!", "Canned reply"]
         
-        presentTextInputControllerWithSuggestions(suggestions,
-            allowedInputMode: .AllowEmoji, completion: { selections in
+        presentTextInputController(withSuggestions: suggestions,
+                                   allowedInputMode: .allowEmoji, completion: { selections in
                 
-                if selections != nil && selections.count > 0 {
+                if selections != nil && selections!.count > 0 {
                     // send the request out through the parent app...
-                    let bodyText = selections[0] as? String
+                    let bodyText = selections![0] as? String
                     var userInfo = ["body": bodyText,
                         "parentId": self.authorId]
                     
-                    DetailInterfaceController.openParentApplication(userInfo) {
-                        (reply:[NSObject : AnyObject]!, error: NSError!) -> Void in
-                        
-                        println("reply from parent: \(reply) error: \(error)")
-                    }
+                    // TODO:
+//                    DetailInterfaceController.openParentApplication(userInfo) {
+//                        (reply:[NSObject : AnyObject]!, error: NSError!) -> Void in
+//
+//                        print("reply from parent: \(reply) error: \(error)")
+//                    }
                 }
         })
     }
